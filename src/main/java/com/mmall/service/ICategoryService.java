@@ -10,4 +10,9 @@ import java.util.List;
  */
 public interface ICategoryService {
     ServerResponse<List<Category>> getCategory(Integer categoryId);
+    ServerResponse<String> addCategory(Integer parentId,String categoryName);
+
+    ServerResponse<String> set_category_name(Integer categoryId, String categoryName);
+
+    ServerResponse getDeepCategory(Integer categoryId);
 }

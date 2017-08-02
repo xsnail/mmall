@@ -22,7 +22,9 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
     <select id="getCategory" resultType="com.mmall.pojo.Category" parameterType="Integer">
-      select * from mmall_category where parent_id = #{categoryId};
+      select
+       <include refid="Base_Column_List"/>
+       from mmall_category where parent_id = #{categoryId};
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_category
@@ -85,6 +87,10 @@
       </if>
     </trim>
   </insert>
+  <insert id="addCategory" parameterType="map">
+      INSERT into mmall_category(parent_id,name,status,create_time,update_time)
+      VALUES (#{parentId},#{categoryName},true,now(),now())
+  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.mmall.pojo.Category" >
     update mmall_category
     <set >
@@ -118,5 +124,9 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="setCategoryName" parameterType="map">
+      update mmall_category set name=#{categoryName},update_time=now()
+      where id = #{categoryId}
   </update>
 </mapper>
