@@ -27,6 +27,16 @@
     from mmall_product
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectPageByCategory" resultType="com.mmall.pojo.Product" parameterType="map">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM mmall_product
+    WHERE category_id = #{categoryId}
+    order by #{sort}
+    limit #{offset},#{pageSize}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_product
     where id = #{id,jdbcType=INTEGER}

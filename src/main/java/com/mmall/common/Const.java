@@ -13,4 +13,10 @@ public class Const {
         int ROLE_CUSTOMER = 1;
         int ROLE_ADMIN = 0;
     }
+
+    public interface ProductStatus{
+        int ON_SALL = 1;
+        int SALL_OUT = 2;
+        int DELETE = 3;
+    }
 }
