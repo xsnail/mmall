@@ -54,21 +54,20 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    public ServerResponse getDeepCategory(Integer categoryId) {
-        if(categoryId == null){
-            return ServerResponse.createByErrorMessage("参数错误");
-        }
+    public ServerResponse<List<Integer>> getDeepCategory(Integer categoryId) {
         Set<Category> categorySet = new HashSet<>();
         findChildCategory(categorySet,categoryId);
 
         List<Integer> categoryIdList = new ArrayList<>();
-        for(Category category : categorySet){
-            categoryIdList.add(category.getId());
+        if(categoryId != null) {
+            for (Category category : categorySet) {
+                categoryIdList.add(category.getId());
+            }
         }
         return ServerResponse.createBySuccess(categoryIdList);
     }
 
-    private Set<Category> findChildCategory(Set<Category> categorySet,Integer categoryId) {
+   public Set<Category> findChildCategory(Set<Category> categorySet,Integer categoryId) {
         Category category = categoryMapper.selectByPrimaryKey(categoryId);
         if(category != null){
             categorySet.add(category);

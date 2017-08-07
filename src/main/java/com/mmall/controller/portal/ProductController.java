@@ -3,6 +3,7 @@ package com.mmall.controller.portal;
 import com.mmall.common.ServerResponse;
 import com.mmall.pojo.Product;
 import com.mmall.service.IProductService;
+import com.mmall.vo.ProductDetailVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,8 @@ public class ProductController {
 
     @RequestMapping(value = "list.do",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse list(String keyword, Integer categoryId,
+    public ServerResponse list(@RequestParam(value = "keyword",required = false) String keyword,
+                               @RequestParam(value = "categoryId",required = false) Integer categoryId,
                                @RequestParam(value = "orderBy",defaultValue = "") String orderBy,
                                @RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
                                @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize){
@@ -31,7 +33,7 @@ public class ProductController {
 
     @RequestMapping(value = "detail.do",method = RequestMethod.GET)
     @ResponseBody
-    public ServerResponse<Product> detail(Integer productId){
+    public ServerResponse<ProductDetailVo> detail(Integer productId){
         return iProductService.detail(productId);
     }
 }

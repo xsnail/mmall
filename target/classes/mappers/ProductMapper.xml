@@ -36,6 +36,26 @@
     limit #{offset},#{pageSize}
   </select>
 
+    <select id="selectByNameAndProductId" resultMap="BaseResultMap" parameterType="map">
+        SELECT
+        <include refid="Base_Column_List"/>
+      FROM mmall_product
+      <where>
+        <if test="productName != null">
+          and name like #{productName}
+        </if>
+        <if test="productId != null">
+          and id = #{productId}
+        </if>
+      </where>
+    </select>
+  <select id="selectList" resultType="com.mmall.pojo.Product">
+    select
+    <include refid="Base_Column_List"/>
+    from mmall_product
+    order by id asc
+  </select>
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_product
@@ -185,5 +205,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = now()
     where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="setSaleStatus" parameterType="map">
+    UPDATE mmall_product SET status = #{status} where productId = #{productId}
   </update>
 </mapper>

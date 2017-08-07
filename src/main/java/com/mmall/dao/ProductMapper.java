@@ -23,4 +23,12 @@ public interface ProductMapper {
                                        @Param("offset") int offset,
                                        @Param("pageSize") Integer pageSize,
                                        @Param("sort") String sort);
+
+    int setSaleStatus(@Param("productId") Integer productId,@Param("status")Integer status);
+
+    List<Product> selectList();
+
+    List<Product> selectByNameAndProductId(@Param("productName") String productName,@Param("productId") Integer productId);
+
+    List<Product> selectByNameAndCategoryIds(@Param("productName") String productName,@Param("categoryIdList")List<Integer> categoryIdList);
 }
