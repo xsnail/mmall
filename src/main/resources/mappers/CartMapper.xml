@@ -40,7 +40,14 @@
   <select id="getCartProductCount" resultType="java.lang.Integer">
     select count(1) from mmall_cart where user_id = #{userId}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectCheckedCartByUserId" resultType="com.mmall.pojo.Cart" parameterType="integer">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM mmall_cart
+      WHERE user_id = #{userId}
+      and checked = 1
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from mmall_cart
     where id = #{id,jdbcType=INTEGER}
   </delete>
