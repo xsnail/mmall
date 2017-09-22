@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,6 +64,7 @@ public class OrderController {
             boolean alipayRSACheckedV2 = AlipaySignature.rsaCheckV2(params, Configs.getAlipayPublicKey()
             ,"utf-8",Configs.getSignType());
             if(!alipayRSACheckedV2){
+                logger.error("支付宝签名验证失败");
                 return ServerResponse.createByErrorMessage("非法请求,验证不通过");
             }
         } catch (AlipayApiException e) {
@@ -98,6 +100,43 @@ public class OrderController {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
         }
         return iOrderService.create(user.getId(),shippingId);
+    }
+
+    @RequestMapping("cancel.do")
+    public ServerResponse cancel(Long orderNo,HttpSession httpSession){
+        User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.cancel(orderNo,user.getId());
+    }
+
+    @RequestMapping("get_order_cart_product.do")
+    public ServerResponse get_order_cart_product(Integer userId,HttpSession httpSession){
+        User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.getOrderCartProduct(userId);
+    }
+
+    @RequestMapping("detail.do")
+    public ServerResponse detail(Integer userId,Long orderNo,HttpSession httpSession){
+        User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.detail(userId,orderNo);
+    }
+
+    @RequestMapping("list.do")
+    public ServerResponse detail(Integer userId, HttpSession httpSession, @RequestParam(value = "pageNum",defaultValue = "1") int pageNum,
+                                 @RequestParam(value = "pageSize",defaultValue = "10") int pageSize){
+        User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),ResponseCode.NEED_LOGIN.getDesc());
+        }
+        return iOrderService.list(userId,pageNum,pageSize);
     }
 
 }
