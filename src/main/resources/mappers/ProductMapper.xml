@@ -58,7 +58,7 @@
   <select id="selectByNameAndCategoryIds" resultType="com.mmall.pojo.Product" parameterType="map">
     select 
     <include refid="Base_Column_List"/>
-    from mmall_procut
+    from mmall_product
     where status = 1
     <if test="productName != null">
       and name like #{productName}

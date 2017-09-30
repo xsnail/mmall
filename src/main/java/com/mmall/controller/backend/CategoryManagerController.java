@@ -26,7 +26,7 @@ public class CategoryManagerController {
     @Autowired
     private ICategoryService iCategoryService;
 
-    @RequestMapping(value = "get_category.do",method = RequestMethod.POST)
+    @RequestMapping(value = "get_category.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<List<Category>> get_category(HttpSession httpSession,@RequestParam(value = "categoryId",defaultValue = "0") Integer categoryId){
         User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
@@ -65,7 +65,7 @@ public class CategoryManagerController {
         return iCategoryService.set_category_name(categoryId,categoryName);
     }
 
-    @RequestMapping(value = "get_deep_category.do",method = RequestMethod.POST)
+    @RequestMapping(value = "get_deep_category.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse getDeepCategory(HttpSession httpSession,Integer categoryId){
         User user = (User) httpSession.getAttribute(Const.CURRENT_USER);

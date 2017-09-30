@@ -1,7 +1,6 @@
 package com.mmall.vo;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * Created by Administrator on 2017/8/7 0007.

@@ -35,4 +35,5 @@ public class UserManagerController {
         httpSession.setAttribute(Const.CURRENT_USER,response.getData());
         return response;
     }
+
 }
