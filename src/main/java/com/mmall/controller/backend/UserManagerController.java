@@ -36,4 +36,11 @@ public class UserManagerController {
         return response;
     }
 
+    @RequestMapping(value = "logout.do",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse logout(HttpSession httpSession){
+        httpSession.removeAttribute(Const.CURRENT_USER);
+        return ServerResponse.createBySuccess();
+    }
+
 }
