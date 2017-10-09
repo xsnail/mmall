@@ -37,4 +37,30 @@ public class OrderManagerController {
         }
         return ServerResponse.createByErrorMessage("无权限");
     }
+
+    @RequestMapping(value = "search.do")
+    public ServerResponse search(@RequestParam(value = "pageNum",defaultValue = "1") Integer pageNum,
+                                 @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize,
+                                 Long orderNo,HttpSession httpSession){
+        User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        if(Const.Role.ROLE_ADMIN == user.getRole().intValue()) {
+            return iOrderService.search(orderNo,pageNum,pageSize,user.getId());
+        }
+        return ServerResponse.createByErrorMessage("无权限");
+    }
+
+    @RequestMapping(value = "detail.do")
+    public ServerResponse detail(Long orderNo,HttpSession httpSession){
+        User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
+        if(user == null){
+            return ServerResponse.createByErrorMessage("用户未登录");
+        }
+        if(Const.Role.ROLE_ADMIN == user.getRole().intValue()) {
+            return iOrderService.detail(user.getId(),orderNo);
+        }
+        return ServerResponse.createByErrorMessage("无权限");
+    }
 }

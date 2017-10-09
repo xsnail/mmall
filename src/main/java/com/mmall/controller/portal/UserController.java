@@ -38,7 +38,7 @@ public class UserController {
         return response;
     }
 
-    @RequestMapping(value = "logout.do",method = RequestMethod.GET)
+    @RequestMapping(value = "logout.do",method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> logout(HttpSession httpSession){
         httpSession.removeAttribute(Const.CURRENT_USER);
@@ -68,11 +68,13 @@ public class UserController {
     }
 
     @RequestMapping(value = "forget_get_question.do",method = RequestMethod.GET)
+    @ResponseBody
     public ServerResponse<String> forgetPassword(String username){
         return iUserService.getQuestionByUserName(username);
     }
 
     @RequestMapping(value = "forget_check_answer.do",method = RequestMethod.GET)
+    @ResponseBody
     public ServerResponse<String> checkAnswer(String username,String question,String answer){
         return iUserService.forgetCheckAnswer(username,question,answer);
     }
@@ -83,6 +85,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "reset_password.do",method = RequestMethod.GET)
+    @ResponseBody
     public ServerResponse<String> resetPassword(HttpSession httpSession,String passwordOld,String passwordNew){
         User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if(user == null){
@@ -92,6 +95,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "update_information.do",method = RequestMethod.GET)
+    @ResponseBody
     public ServerResponse<String> updateInformation(HttpSession httpSession,String email,String phone,String question,String answer){
         User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if(user == null){
@@ -109,6 +113,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "get_information.do",method = RequestMethod.POST)
+    @ResponseBody
     public ServerResponse<User> getInformation(HttpSession httpSession){
         User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
         if(user == null){

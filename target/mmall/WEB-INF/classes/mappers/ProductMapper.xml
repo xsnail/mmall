@@ -222,6 +222,6 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="setSaleStatus" parameterType="map">
-    UPDATE mmall_product SET status = #{status} where productId = #{productId}
+    UPDATE mmall_product SET status = #{status} where id = #{productId}
   </update>
 </mapper>

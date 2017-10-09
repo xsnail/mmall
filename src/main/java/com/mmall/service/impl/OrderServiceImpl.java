@@ -15,6 +15,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mmall.common.Const;
+import com.mmall.common.ResponseCode;
 import com.mmall.common.ServerResponse;
 import com.mmall.dao.*;
 import com.mmall.pojo.*;
@@ -23,10 +24,7 @@ import com.mmall.util.BigDecimalUtil;
 import com.mmall.util.DateTimeUtil;
 import com.mmall.util.FTPUtil;
 import com.mmall.util.PropertiesUtil;
-import com.mmall.vo.OrderItemVo;
-import com.mmall.vo.OrderProductVo;
-import com.mmall.vo.OrderVo;
-import com.mmall.vo.ShippingVo;
+import com.mmall.vo.*;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -328,7 +326,24 @@ public class OrderServiceImpl implements IOrderService {
         List<Order> orderList = orderMapper.selectByUserId(userId);
         List<OrderVo> orderVoList = convertOrderVoList(orderList,userId);
         PageInfo pageResult = new PageInfo(orderList);
-        pageResult.setList(orderList);
+        pageResult.setList(orderVoList);
+        return ServerResponse.createBySuccess(pageResult);
+    }
+
+    @Override
+    public ServerResponse search(Long orderNo, Integer pageNum, Integer pageSize,Integer userId) {
+        PageHelper.startPage(pageNum,pageSize);
+        if(orderNo == null){
+            return ServerResponse.createByErrorMessage(ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        Order order = orderMapper.selectByOrderNo(orderNo);
+        List<Order> orderList = Lists.newArrayList();
+        if(order != null && order.getUserId().equals(userId)) {
+            orderList.add(order);
+        }
+        List<OrderVo> orderVoList = convertOrderVoList(orderList,userId);
+        PageInfo pageResult = new PageInfo(orderList);
+        pageResult.setList(orderVoList);
         return ServerResponse.createBySuccess(pageResult);
     }
 

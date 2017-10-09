@@ -2,6 +2,7 @@ package com.mmall.service;
 
 import com.mmall.common.ServerResponse;
 
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -22,4 +23,6 @@ public interface IOrderService {
     ServerResponse detail(Integer userId,Long orderNo);
 
     ServerResponse list(Integer userId,int pageNum,int pageSize);
+
+    ServerResponse search(Long orderNo, Integer pageNum, Integer pageSize, Integer userId);
 }

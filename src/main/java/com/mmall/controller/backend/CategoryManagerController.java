@@ -52,7 +52,7 @@ public class CategoryManagerController {
         return iCategoryService.addCategory(parentId,categoryName);
     }
 
-    @RequestMapping(value = "set_category_name.do",method = RequestMethod.POST)
+    @RequestMapping(value = "set_category_name.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<String> set_category_name(HttpSession httpSession,Integer categoryId,String categoryName){
         User user = (User) httpSession.getAttribute(Const.CURRENT_USER);
